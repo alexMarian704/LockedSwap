@@ -1,0 +1,45 @@
+.nav {
+    min-width: 100vw;
+    width: 100vw;
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 10px 8px 10px;
+    box-shadow: 0px 2px 8px 3px rgba(129, 129, 129, 0.26);
+    height: calc(55px + 2vh);
+    align-items: center;
+}
+
+.navLinks {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.navLinks h1 {
+    font-size: calc(23px + 0.1vw);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+}
+
+.navLinks h2 {
+    font-size: calc(20px + 0.1vw);
+    padding-top: 4px;
+    display: grid;
+    place-content: center;
+    cursor: pointer;
+}
+
+.nav button {
+    height: calc(28px + 1vh);
+}
+
+.align {
+    width: 100%;
+    max-width: 900px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
