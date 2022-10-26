@@ -3,7 +3,6 @@ import { Flex, Box, Link, Spinner, Text } from '@chakra-ui/react';
 import { TransactionCb } from '../../hooks/core/common-helpers/sendTxOperations';
 import { FlexCardWrapper } from '../ui/CardWrapper';
 import { SimpleEGLDTxDemo } from './SimpleEGLDTxDemo';
-import { SimpleNftMintDemo } from './SimpleNftMintDemo';
 import { SimpleScQeryDemo } from './SimpleScQueryDemo';
 import { shortenHash } from '../../utils/shortenHash';
 import { networkConfig, chainType } from '../../config/network';
@@ -69,7 +68,6 @@ export const SimpleDemo = () => {
     <Box position="relative">
       <Flex gap={8} flexWrap="wrap" justifyContent="center" mb={4}>
         <SimpleEGLDTxDemo cb={handleTxCb} />
-        <SimpleNftMintDemo cb={handleTxCb} />
         <SimpleScQeryDemo cb={handleQueryCb} />
       </Flex>
       {error && (

@@ -4,7 +4,6 @@ import {
   Transaction,
   ITransactionPayload,
   IGasLimit,
-  TokenPayment,
 } from '@elrondnetwork/erdjs';
 import { ApiNetworkProvider } from '@elrondnetwork/erdjs-network-providers';
 import { useSnapshot } from 'valtio';
@@ -69,13 +68,22 @@ export function useTransaction(
       setPending(true);
       cb?.({ pending: true });
 
+      // const tx = new Transaction({
+      //   nonce: currentNonce,
+      //   receiver: new Address(address),
+      //   gasLimit,
+      //   chainID: networkConfig[chainType].shortId,
+      //   data,
+      //   ...(value ? { value: TokenPayment.egldFromAmount(value)} : {}),
+      //   sender: new Address(accountSnap.address),
+      // });
       const tx = new Transaction({
         nonce: currentNonce,
         receiver: new Address(address),
         gasLimit,
         chainID: networkConfig[chainType].shortId,
         data,
-        ...(value ? { value: TokenPayment.egldFromAmount(value) } : {}),
+        // ...(value ? { value: TokenPayment.metaEsdtFromAmount("333-123e1b", currentNonce ,value , 18) } : {}),
         sender: new Address(accountSnap.address),
       });
 

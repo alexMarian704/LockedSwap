@@ -1,5 +1,5 @@
 import { Link, Text } from '@chakra-ui/react';
-import { TransactionPayload } from '@elrondnetwork/erdjs';
+import { ESDTTransferPayloadBuilder, TokenPayment, TransactionPayload } from '@elrondnetwork/erdjs';
 import { useTransaction } from '../../hooks/core/useTransaction';
 import { useCallback } from 'react';
 import { ActionButton } from '../tools/ActionButton';
@@ -16,16 +16,27 @@ export const SimpleEGLDTxDemo = ({
 }: {
   cb: (params: TransactionCb) => void;
 }) => {
-  const { pending, triggerTx } = useTransaction({ cb });
+  const { pending, triggerTx, error } = useTransaction({ cb });
 
   const handleSendTx = useCallback(() => {
-    //const demoMessage = 'Transaction demo!';
+    const demoMessage = 'Transaction demo!';
+    let payment = TokenPayment.fungibleFromAmount("333-123e1b" , 1*10**18 , 0)
+    let data = new ESDTTransferPayloadBuilder().setPayment(payment).build();
+
     triggerTx({
       address: egldTransferAddress,
-      gasLimit: 50000 + 1500 ,
-     // data: new TransactionPayload(demoMessage),
-      value: Number(egldTransferAmount),
-    });
+      gasLimit: 50000 + 1500 * data.length() + 1000000,
+      data: data,
+      // value: Number(0.5),
+    }).catch((err)=>{
+      console.log(err)
+    })
+    // triggerTx({
+    //   address: egldTransferAddress,
+    //   gasLimit: 60000000,
+    //   // data: new TransactionPayload(demoMessage),
+    //   value: Number(0.5),
+    // })
   }, [triggerTx]);
 
   return (

@@ -1,4 +1,4 @@
-.card{
+.card {
     max-width: 550px;
     width: calc(240px + 30vw);
     background-color: rgb(18, 18, 18);
@@ -10,19 +10,21 @@
     box-shadow: 0px 1px 6px 3px rgba(129, 129, 129, 0.26);
     padding: 10px 5px 0px 5px;
     position: relative;
+    /* padding-bottom: 100px; */
 }
+
 @media only screen and (max-width: 500px) {
-    .card{
+    .card {
         width: 95vw;
     }
 }
 
-.amountDiv{
+.amountDiv {
     width: 95%;
     margin: auto;
 }
 
-.tokenInput{
+.tokenInput {
     width: 100%;
     height: calc(52px + 1vh);
     border-radius: 5px;
@@ -34,7 +36,8 @@
     padding: 0px 5px 0px 10px;
     transition: all 200ms ease-in-out;
 }
-.tokenInput input{
+
+.tokenInput input {
     color: white;
     background-color: transparent;
     outline: none;
@@ -43,18 +46,20 @@
     width: 72%;
     background-color: transparent;
 }
-.tokenInput:focus-within{
+
+.tokenInput:focus-within {
     border: 1px solid #800040;
 }
 
-.changeTokens{
+.changeTokens {
     width: 100%;
     display: grid;
     place-content: center;
     margin-top: 25px;
     margin-bottom: 10px;
 }
-.changeTokens button{
+
+.changeTokens button {
     font-size: calc(22px + 0.1vw);
     background-color: rgba(40, 40, 40);
     width: calc(27px + 1vh);
@@ -64,26 +69,106 @@
     place-content: center;
     color: #800040;
     transition: all 300ms ease-in-out;
+    outline: none;
 }
-.changeTokens button:hover{
+
+.changeTokens button:hover {
     rotate: 180deg;
     background-color: rgba(128, 0, 64, 0.5);
 }
-.swapButton{
+
+.swapButton {
     width: 95%;
     position: absolute;
     bottom: 10px;
     left: 2.5%;
 }
-.swapButton button{
+
+.swapButton button {
     width: 100%;
     position: relative;
 }
-.tokenType{
+
+.tokenType {
     width: 28%;
     height: 88%;
     background-color: rgb(20, 20, 20);
     border-radius: 20px 0px 0px 20px;
     cursor: pointer;
     border: 1px solid rgb(70, 70, 70);
+    display: flex;
+    align-items: center;
+    transition: all 200ms ease-in-out;
+}
+
+.tokenType:hover {
+    border: 1px solid rgb(160, 160, 160);
+    background-color: rgba(16, 16, 16);
+}
+
+.tokenContainer {
+    width: 100%;
+    height: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.slippage {
+    width: 95%;
+    display: flex;
+    margin: auto;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+.changeSlippage{
+    display: flex;
+    align-items: center;
+}
+.customSlippage{
+    display: flex;
+    align-items: center;
+    background-color: rgb(40, 40, 40);
+    border: 2px solid #800040;
+    border-radius: 5px;
+    padding: 0px 4px 0px 3px;
+}
+.customSlippage p{
+    color: rgb(151, 151, 151);
+}
+.changeSlippage button{
+    width: calc(35px + 0.5vw);
+    height: calc(35px + 0.5vw);
+    max-width: 40px;
+    max-height: 40px;
+    margin-right: 10px;
+    background-color: #800040;
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+    transition: all 100ms ease-in-out;
+    font-size: calc(13px + 0.1vw);
+    border: 0px solid black;
+}
+.changeSlippage button:hover{
+    background-color: #480727;
+}
+.customSlippage input{
+    width: 65px;
+    height: calc(35px + 0.5vw);
+    max-height: 40px;
+    border-radius: 4px;
+    outline: none;
+    background-color: transparent;
+    border: none;
+    color: rgb(190, 190, 190);
+    padding-left: 2px;
+}
+.balance{
+    text-align: right;
+    font-size: calc(13px + 0.1vw);
+    font-weight: 500;
+    padding-right: 5px;
+    margin-top: 6px;
 }
