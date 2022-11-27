@@ -1,7 +1,7 @@
 import { Link, Text } from '@chakra-ui/react';
 import { ESDTTransferPayloadBuilder, TokenPayment, TransactionPayload } from '@elrondnetwork/erdjs';
 import { useTransaction } from '../../hooks/core/useTransaction';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { ActionButton } from '../tools/ActionButton';
 import { networkConfig, chainType } from '../../config/network';
 import { shortenHash } from '../../utils/shortenHash';
@@ -11,23 +11,20 @@ import { TransactionCb } from '../../hooks/core/common-helpers/sendTxOperations'
 const egldTransferAddress = process.env.NEXT_PUBLIC_EGLD_TRANSFER_ADDRESS || '';
 const egldTransferAmount = process.env.NEXT_PUBLIC_EGLD_TRANSFER_AMOUNT || '';
 
-export const SimpleEGLDTxDemo = ({
-  cb,
-}: {
-  cb: (params: TransactionCb) => void;
-}) => {
-  const { pending, triggerTx, error } = useTransaction({ cb });
+export const SimpleEGLDTxDemo = ({ cb, }: { cb: (params: TransactionCb) => void; }) => {
+  const { pending, triggerTx, error, transaction } = useTransaction({ cb });
 
   const handleSendTx = useCallback(() => {
+
     const demoMessage = 'Transaction demo!';
-    let payment = TokenPayment.fungibleFromAmount("333-123e1b" , 1*10**18 , 0)
+    let payment = TokenPayment.fungibleFromAmount("333-123e1b" , 100*10**18 , 0)
     let data = new ESDTTransferPayloadBuilder().setPayment(payment).build();
 
     triggerTx({
-      address: egldTransferAddress,
+      address: "erd1qqqqqqqqqqqqqpgqk5xp67vn7q4ncvckfzq6w30ld6pk4gl2n60qkvdrzz",
       gasLimit: 50000 + 1500 * data.length() + 1000000,
       data: data,
-      // value: Number(0.5),
+      value: Number(0.5),
     }).catch((err)=>{
       console.log(err)
     })
@@ -38,6 +35,10 @@ export const SimpleEGLDTxDemo = ({
     //   value: Number(0.5),
     // })
   }, [triggerTx]);
+
+  useEffect(()=>{
+    console.log(transaction?.getHash().hex())
+  },[transaction?.getHash().hex()])
 
   return (
     <FlexCardWrapper>

@@ -5,6 +5,7 @@ import { FlexCardWrapper } from '../ui/CardWrapper';
 import { networkConfig, chainType } from '../../config/network';
 import { shortenHash } from '../../utils/shortenHash';
 import { ActionButton } from '../tools/ActionButton';
+import { Address, AddressValue, U64Value } from '@elrondnetwork/erdjs/out';
 
 const mintSmartContractAddress =
   process.env.NEXT_PUBLIC_MINT_SMART_CONTRACT_ADDRESS || '';
@@ -15,6 +16,7 @@ export const SimpleScQeryDemo = ({
 }: {
   cb: (queryResult: string, pending: boolean, error: string) => void;
 }) => {
+  let addressOfCarol = new Address("erd17yh539cvfm7ez4xsdc7f3hl6pmxkme2z56kc6rtrdfu252eah6yqjg83rx");
   const {
     data: queryResult,
     fetch, // you can always trigger the query manually if 'autoInit' is set to false
@@ -25,8 +27,8 @@ export const SimpleScQeryDemo = ({
     type: SCQueryType.NUMBER, // can be int or string
     payload: {
       scAddress: mintSmartContractAddress,
-      funcName: queryFunctionName,
-      args: [],
+      funcName: "egld_esdt_swap",
+      args: [new U64Value(10)],
     },
     autoInit: false, // you can enable or disable trigger of the query on component mount
   });

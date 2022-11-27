@@ -1,0 +1,103 @@
+{
+    "buildInfo": {
+        "rustc": {
+            "version": "1.66.0-nightly",
+            "commitHash": "5e9772042948002f9c6f60c4c81603170035fffa",
+            "commitDate": "2022-10-29",
+            "channel": "Nightly",
+            "short": "rustc 1.66.0-nightly (5e9772042 2022-10-29)"
+        },
+        "contractCrate": {
+            "name": "contract5",
+            "version": "0.0.0"
+        },
+        "framework": {
+            "name": "elrond-wasm",
+            "version": "0.36.1"
+        }
+    },
+    "name": "EgldEsdtSwap",
+    "constructor": {
+        "inputs": [
+            {
+                "name": "rate",
+                "type": "u64"
+            }
+        ],
+        "outputs": []
+    },
+    "endpoints": [
+        {
+            "name": "deposit_egld",
+            "mutability": "mutable",
+            "payableInTokens": [
+                "EGLD"
+            ],
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "deposit_lkash",
+            "mutability": "mutable",
+            "payableInTokens": [
+                "*"
+            ],
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "claim_egld",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "payment",
+                    "type": "BigUint"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "claim_lkash",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "payment",
+                    "type": "BigUint"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "set_exchange_rate",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "rate",
+                    "type": "u64"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "egld_lkash_swap",
+            "mutability": "mutable",
+            "payableInTokens": [
+                "EGLD"
+            ],
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "lkash_egld_swap",
+            "mutability": "mutable",
+            "payableInTokens": [
+                "*"
+            ],
+            "inputs": [],
+            "outputs": []
+        }
+    ],
+    "events": [],
+    "hasCallback": false,
+    "types": {}
+}

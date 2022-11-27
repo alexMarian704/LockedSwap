@@ -6,6 +6,13 @@ import {
   TypedValue,
   TokenPayment,
   ContractCallPayloadBuilder,
+  ESDTTransferPayloadBuilder,
+  SmartContract,
+  Interaction,
+  SmartContractAbi,
+  TransactionPayload,
+  BytesValue,
+  BigUIntValue,
 } from '@elrondnetwork/erdjs';
 import { ApiNetworkProvider } from '@elrondnetwork/erdjs-network-providers';
 import { useSnapshot } from 'valtio';
@@ -19,6 +26,7 @@ import {
   sendTxOperations,
 } from './common-helpers/sendTxOperations';
 import { useWebWalletTxSend } from './common-helpers/useWebWalletTxSend';
+import BigNumber from 'bignumber.js';
 
 interface ScTransactionParams {
   smartContractAddress: string;
@@ -72,21 +80,41 @@ export function useScTransaction(
       setPending(true);
       cb?.({ pending: true });
 
-      const data = new ContractCallPayloadBuilder()
-        .setFunction(func)
-        .setArgs(args || [])
-        .build();
+      ///////////////////LKASH SWAP////////////////
+      const payload = TransactionPayload.contractCall()
+      .setFunction(new ContractFunction("ESDTTransfer"))
+      .setArgs([
+        BytesValue.fromUTF8("333-123e1b"),
+        new BigUIntValue(100 * 10 **18),
+        BytesValue.fromUTF8("lkash_egld_swap")
+      ]).build();
 
       const tx = new Transaction({
-        data,
+        data:payload,
         gasLimit,
-        ...(value ? { value: TokenPayment.egldFromAmount(value) } : {}),
+        ...(value ? { value: 0 } : {}),
         chainID: networkConfig[chainType].shortId,
         receiver: new Address(smartContractAddress),
         sender: new Address(accountSnap.address),
+        nonce: currentNonce,
       });
 
-      tx.setNonce(currentNonce);
+
+      ////////////EGDL SWAP////////////////////////
+      // const data = new ContractCallPayloadBuilder()
+      // .setFunction(func)
+      // .setArgs(args || [])
+      // .build();
+      // const tx = new Transaction({
+      //   data,
+      //   gasLimit,
+      //   ...(value ? { value: TokenPayment.egldFromAmount(value) } : {}),
+      //   chainID: networkConfig[chainType].shortId,
+      //   receiver: new Address(smartContractAddress),
+      //   sender: new Address(accountSnap.address),
+      // });
+
+      // tx.setNonce(currentNonce);
 
       sendTxOperations(
         dappProvider,

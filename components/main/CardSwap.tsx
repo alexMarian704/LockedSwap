@@ -1,7 +1,7 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useEffect, useState, useCallback } from 'react'
 import style from "../../style/Swap.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes, faSync, faBolt, faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { faTimes, faSync, faBolt, faChevronDown, faRightLeft } from "@fortawesome/free-solid-svg-icons";
 import { ActionButton } from '../tools/ActionButton';
 import { useLoggingIn } from '../../hooks/auth/useLoggingIn';
 import { Authenticated } from '../tools/Authenticated';
@@ -10,6 +10,8 @@ import { SimpleEGLDTxDemo } from '../demo/SimpleEGLDTxDemo';
 import { accountState, loginInfoState } from '../../store/auth';
 import { useSnapshot } from 'valtio';
 import { CustomNetworkProvider } from "../../store/CustomNetwork";
+import { Address, AddressValue, ContractFunction, ESDTTransferPayloadBuilder, TokenPayment, U64Value } from '@elrondnetwork/erdjs/out';
+import { useScTransaction } from '../../hooks/core/useScTransaction';
 
 interface EsdtToken {
   identifier: string;
@@ -35,28 +37,61 @@ const CardSwap: FC = (): JSX.Element => {
   const [fromValue, setFromValue] = useState("");
   const [to, setTo] = useState("LKASH");
   const [from, setFrom] = useState("EGLD");
-  const { isLoggingIn, error, isLoggedIn } = useLoggingIn();
+  const { isLoggingIn, isLoggedIn } = useLoggingIn();
   const [slippage, setSlippage] = useState<Number>(1)
   const [customSlippage, setCustomSlippage] = useState("")
   const accountSnap = useSnapshot(accountState);
   const [esdt, setEsdt] = useState<EsdtToken[]>([])
   const [toBalance, setToBalance] = useState(0)
   const [fromBalance, setFromBalance] = useState(0)
+  const [rate, setRate] = useState([
+    {
+      fV: 1,
+      tV: 1237,
+      from: "EGLD",
+      to: "LKASH"
+    },
+    {
+      fV: 1,
+      tV: 0.00080840743,
+      from: "LKASH",
+      to: "EGLD"
+    }
+  ])
+  const [rateValue, setRateValue] = useState(0)
+
+  const { pending, triggerTx, error, transaction } = useScTransaction({})
 
   useEffect(() => {
     if (fromValue[0] !== ".") {
       setFromValue(fromValue.replace(/[^\d.]/g, ''))
+      if (fromValue !== "") {
+        let rate = Number(fromValue.replace(/[^\d.]/g, ''));
+        setToValue(String(rate * 1237))
+      } else {
+        setToValue("")
+      }
       if (fromValue[fromValue.length - 1] === "." && fromValue.slice(0, -1).includes(".") === true) {
         setFromValue(fromValue.slice(0, -1))
+        let rate = Number(fromValue.slice(0, -1));
+        setToValue(String(rate * 1237))
       }
     } else {
       setFromValue(fromValue.substring(1))
+      let rate = Number(fromValue.substring(1));
+      setToValue(String(rate * 1237))
     }
   }, [fromValue])
 
   useEffect(() => {
     if (toValue[0] !== ".") {
       setToValue(toValue.replace(/[^\d.]/g, ''))
+      if (toValue !== "") {
+        let rate = Number(toValue.replace(/[^\d.]/g, ''));
+        setFromValue(String(rate / 1237))
+      } else {
+        setFromValue("")
+      }
       if (toValue[toValue.length - 1] === "." && toValue.slice(0, -1).includes(".") === true) {
         setToValue(toValue.slice(0, -1))
       }
@@ -109,15 +144,55 @@ const CardSwap: FC = (): JSX.Element => {
     setToBalance(auxBalance)
   }
 
-  const swapTokens = () => {
+  const swapTokens = useCallback(() => {
+    let ca = "erd1qqqqqqqqqqqqqpgqk5xp67vn7q4ncvckfzq6w30ld6pk4gl2n60qkvdrzz"
+    let contractfunction = new ContractFunction("lkash_egld_swap")
+    let args = [new U64Value(Number(10))];
 
+    triggerTx({
+      smartContractAddress: ca,
+      func: contractfunction,
+      gasLimit: 5000000,
+      args: [],
+      value: Number(0.2)
+    })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [triggerTx]);
+
+  useEffect(() => {
+    console.log(transaction?.getHash().hex())
+  }, [transaction?.getHash().hex()])
+
+  const testFunction = async () => {
+    // let ca = new Address("erd1qqqqqqqqqqqqqpgq45uzvl6hscsrn4hjve8dlmq4v0q47h9s0eqqckn8rf")
+    // let contract = new SmartContract({address:ca});
+    // let contractfunction = new ContractFunction("egld_esdt_swap");
+    // let args = [new U64Value(10)];
+    // let interaction = new Interaction(contract , contractfunction , args)
+    // let addressOfCarol = new Address(accountSnap.address);
+
+    // let tx = interaction
+    //   .withNonce(7)
+    //   .withGasLimit(200000000)
+    //   .withChainID(networkConfig[chainType].shortId)
+    //   .buildTransaction();
+
+    // let tx = contract.call({
+    //   func: new ContractFunction("egld_esdt_swap"),
+    //   gasLimit:500000000,
+    //   args:args,
+    //   chainID:networkConfig[chainType].shortId
+    // })
+    // tx.setNonce(accountSnap.nonce)
   }
 
   return (
     <div className={style.card}>
-      <SimpleEGLDTxDemo cb={()=>{
+      {/* <SimpleEGLDTxDemo cb={() => {
         console.log("GATA")
-      }} />
+      }} /> */}
       <div className={style.amountDiv}>
         <label>Swap From</label>
         <div className={style.tokenInput}>
@@ -126,7 +201,7 @@ const CardSwap: FC = (): JSX.Element => {
           <div className={style.tokenType}>
             <div className={style.tokenContainer}>
               <p>{from}</p>
-              <button><FontAwesomeIcon icon={faChevronDown} /></button>
+              {/* <button><FontAwesomeIcon icon={faChevronDown} /></button> */}
             </div>
           </div>
         </div>
@@ -142,7 +217,7 @@ const CardSwap: FC = (): JSX.Element => {
           <div className={style.tokenType}>
             <div className={style.tokenContainer}>
               <p>{to}</p>
-              <button><FontAwesomeIcon icon={faChevronDown} /></button>
+              {/* <button><FontAwesomeIcon icon={faChevronDown} /></button> */}
             </div>
           </div>
         </div>
@@ -184,8 +259,22 @@ const CardSwap: FC = (): JSX.Element => {
           </div>
         </div>
       </div>
-      <div className={style.exchangeRate}>
-
+      <div className={style.slippage}>
+        <div>
+          <p>Exchange Rate</p>
+        </div>
+        <div className={style.changeSlippage}>
+          <p>{rate[rateValue].fV} {rate[rateValue].from} ≈ {rate[rateValue].tV} {rate[rateValue].to}</p>
+          <button style={{
+            width: "calc(25px + 0.1vw)",
+            height: "calc(25px + 0.1vw)",
+            color: "#800040",
+            background: "transparent",
+            marginRight: "0px"
+          }} onClick={() => {
+            rateValue === 0 ? setRateValue(1) : setRateValue(0)
+          }}><FontAwesomeIcon icon={faRightLeft} /></button>
+        </div>
       </div>
       <div className={style.swapButton}>
         {isLoggedIn === true && <ActionButton onClick={swapTokens}>Swap</ActionButton>}

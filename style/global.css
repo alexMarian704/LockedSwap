@@ -1,59 +1,128 @@
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@500&display=swap');
 
-*{
+* {
     /* font-family: 'Work Sans', sans-serif; */
     font-family: 'Prompt', sans-serif;
 }
 
-.content{
+.content {
     min-height: calc(99vh - 80px);
 }
-footer{
+
+footer {
     height: calc(80px + 1vh);
-    background-color: rgb(32, 32, 32);
+    background-color: rgb(26, 26, 26);
     box-shadow: 0px 2px 6px 3px rgba(145, 145, 145, 0.40);
     display: grid;
     place-content: center;
+    font-size: calc(17px + 0.1vw);
 }
-.homeInfo{
+
+.homeInfo {
     width: 100%;
-    margin-top: 20vh;
+    margin-top: 10vh;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    background-color: #800040;
+    padding: 200px 0px 200px 0px;
+    position: relative;
 }
-.homeInfo h3{
+
+.homeInfo h3 {
     font-size: calc(48px + 0.2vw);
     text-align: center;
 }
-.homeInfo h4{
+
+.homeInfo h4 {
     font-size: calc(38px + 0.2vw);
     font-weight: 800;
     text-align: center;
 }
+
 @media only screen and (max-width: 530px) {
-    .homeInfo h3{
+    .homeInfo h3 {
         font-size: calc(37px + 0.2vw);
     }
-    .homeInfo h4{
+
+    .homeInfo h4 {
         font-size: calc(28px + 0.2vw);
     }
 }
+
 @media only screen and (max-width: 400px) {
-    .homeInfo h3{
+    .homeInfo h3 {
         font-size: calc(30px + 0.1vw);
     }
-    .homeInfo h4{
+
+    .homeInfo h4 {
         font-size: calc(24px + 0.1vw);
     }
 }
+
 @media only screen and (max-width: 330px) {
-    .homeInfo h3{
+    .homeInfo h3 {
         font-size: calc(24px + 0.1vw);
     }
-    .homeInfo h4{
+
+    .homeInfo h4 {
         font-size: calc(19px + 0.1vw);
     }
+}
+
+/* .backgroudWave {
+    width: 100%;
+    position: absolute;
+    background-color: #800040;
+    height: 500px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+} */
+
+/*//////////////////////////////////////////////////*/
+.custom-shape-divider-bottom-1666975611 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+    color: #5a0630;
+}
+
+.custom-shape-divider-bottom-1666975611 svg {
+    position: relative;
+    display: block;
+    width: calc(108% + 1.3px);
+    height: 126px;
+    transform: rotateY(180deg);
+}
+
+.custom-shape-divider-bottom-1666975611 .shape-fill {
+    fill: #121212;
+}
+
+.custom-shape-divider-top-1666975772 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.custom-shape-divider-top-1666975772 svg {
+    position: relative;
+    display: block;
+    width: calc(108% + 1.3px);
+    height: 150px;
+    transform: rotateY(180deg);
+}
+
+.custom-shape-divider-top-1666975772 .shape-fill {
+    fill: #121212;
 }

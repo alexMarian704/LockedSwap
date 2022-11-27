@@ -12,9 +12,12 @@ const Swap = () => {
       <Head>
         <title>Swap</title>
       </Head>
-      <div className="content">
+      <div className="content" style={{
+        backgroundColor: "rgb(18,18,18)",
+        background: "radial-gradient(circle, rgba(18,18,18,1) 59%, rgba(128,0,64,1) 100%)"
+      }}>
         <Nav />
-        <Text fontSize="calc(30px + 0.2vw)" align={"center"} mt={8}>Swap</Text>
+        <Text fontSize="calc(30px + 0.2vw)" align={"center"} mt={8} zIndex={10}>Swap</Text>
         <CardSwap />
       </div>
       <Footer />

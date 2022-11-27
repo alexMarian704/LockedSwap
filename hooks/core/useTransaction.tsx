@@ -4,6 +4,11 @@ import {
   Transaction,
   ITransactionPayload,
   IGasLimit,
+  SmartContract,
+  ContractFunction,
+  U64Value,
+  Interaction,
+  TokenPayment,
 } from '@elrondnetwork/erdjs';
 import { ApiNetworkProvider } from '@elrondnetwork/erdjs-network-providers';
 import { useSnapshot } from 'valtio';
@@ -17,6 +22,7 @@ import {
   TransactionCb,
   sendTxOperations,
 } from './common-helpers/sendTxOperations';
+import BigNumber from 'bignumber.js';
 
 interface TransactionParams {
   address: string;
@@ -77,6 +83,8 @@ export function useTransaction(
       //   ...(value ? { value: TokenPayment.egldFromAmount(value)} : {}),
       //   sender: new Address(accountSnap.address),
       // });
+
+      //////////////////////////////////////////////////////////////
       const tx = new Transaction({
         nonce: currentNonce,
         receiver: new Address(address),
@@ -87,7 +95,23 @@ export function useTransaction(
         sender: new Address(accountSnap.address),
       });
 
-      tx.setNonce(currentNonce);
+      //////////////////////////////////////////////
+      // let ca = new Address("erd1qqqqqqqqqqqqqpgq45uzvl6hscsrn4hjve8dlmq4v0q47h9s0eqqckn8rf")
+      // let contract = new SmartContract({address:ca});
+      // let contractfunction = new ContractFunction("egld_esdt_swap");
+      // let args = [new U64Value(10000)];
+
+      // let interaction = new Interaction(contract , contractfunction , args)
+      // let addressOfCarol = new Address(accountSnap.address);
+  
+      // const tx = contract.call({
+      //   func: contractfunction,
+      //   gasLimit:gasLimit,
+      //   args:args,
+      //   chainID:networkConfig[chainType].shortId
+      // })
+      // tx.setValue(TokenPayment.egldFromAmount(0.2))
+      // tx.setNonce(currentNonce);
 
       sendTxOperations(
         dappProvider,
